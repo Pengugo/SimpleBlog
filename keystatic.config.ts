@@ -1,32 +1,37 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  // 本地开发时使用 local，部署到线上时建议通过环境变量切换为 github
   storage: {
-    kind: process.env.PUBLIC_KEYSTATIC_STORAGE === 'github' ? 'github' : 'local',
+    // 本地运行 npm run dev 时直接读写本地文件；部署到线上后通过 GitHub 读写
+    kind: import.meta.env.DEV ? 'local' : 'github',
     repo: {
       owner: 'Pengugo',
-      name: 'my-notes',
+      name: 'SimpleBlog',
     },
   },
   collections: {
-    notes: collection({
-      label: '随笔列表',
+    posts: collection({
+      label: '我的随笔',
       slugField: 'title',
-      path: 'src/content/notes/*',
+      // 直接指向你现有的随笔目录
+      path: 'src/pages/posts/*',
+      // 生成标准的 .md 文件（而不是默认的 .mdoc），完美兼容你现有的代码
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: '随笔标题' } }),
-        publishedDate: fields.date({
+        layout: fields.text({
+          label: '页面布局 (请勿修改)',
+          defaultValue: '../../layouts/PostLayout.astro',
+        }),
+        title: fields.slug({
+          name: { label: '随笔标题' },
+        }),
+        date: fields.date({
           label: '发布日期',
           defaultValue: { kind: 'today' },
         }),
-        tags: fields.array(fields.text({ label: '标签' }), {
-          label: '标签',
-          itemLabel: (props) => props.value || '请填写标签',
-        }),
         content: fields.markdoc({
-          label: '内容正文',
+          label: '随笔正文',
+          extension: 'md',
         }),
       },
     }),
