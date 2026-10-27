@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/PostLayout.astro
 title: 气状灵魂
-date: 2026-10-27
+date: 2024-12-19
 ---
 「夏残骸我誰死は涙ぐむ。」
 

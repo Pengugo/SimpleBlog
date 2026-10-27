@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/PostLayout.astro
 title: 四季
-date: 2026-10-27
+date: 2024-02-29
 ---
 -春-
 
