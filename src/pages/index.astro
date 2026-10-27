@@ -1,0 +1,35 @@
+---
+// 自动获取 src/pages/posts/ 下的所有 Markdown 文件
+const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+// 按日期从新到旧排序
+posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
+---
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>焚书阁</title>
+    <style>
+      body { max-width: 650px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.75; color: #000000; background: #fdfdfd; }
+      h1 { margin-bottom: 0.5rem; }
+      .bio { color: #666; margin-bottom: 2.5rem; }
+      ul { list-style: none; padding: 0; }
+      li { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed #eee; padding-bottom: 0.5rem; }
+      a { color: #111; text-decoration: none; font-size: 1.05rem; }
+      a:hover { text-decoration: underline; }
+      .date { color: #888; font-size: 0.85rem; flex-shrink: 0; margin-left: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>焚书阁</h1>
+    <p class="bio">舞动的水花</p>
+    <ul>
+      {posts.map((post: any) => (
+        <li>
+          <a href={post.url}>{post.frontmatter.title}</a>
+          <span class="date">{String(post.frontmatter.date).slice(0, 10)}</span>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
