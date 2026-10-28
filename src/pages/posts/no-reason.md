@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/PostLayout.astro
 title: 指鹿为马
-date: 2026-10-28
+date: 2025-10-23
 ---
 “你觉得如愿以偿的一场旅游能救我于水火吗？”
 
