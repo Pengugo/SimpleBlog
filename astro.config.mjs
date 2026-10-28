@@ -4,6 +4,7 @@ import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 
 // 判断当前是不是在本地运行 npm run dev
+// @ts-ignore
 const isDev = process.env.NODE_ENV === 'development';
 
 export default defineConfig({

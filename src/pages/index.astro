@@ -9,20 +9,34 @@ posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.fro
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>焚书阁</title>
+    <meta name="theme-color" content="#f7f5f0" />
     <style>
-      body { max-width: 650px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.75; color: #000000; background: #fdfdfd; }
-      h1 { margin-bottom: 0.5rem; }
-      .bio { color: #666; margin-bottom: 2.5rem; }
-      ul { list-style: none; padding: 0; }
-      li { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed #eee; padding-bottom: 0.5rem; }
-      a { color: #111; text-decoration: none; font-size: 1.05rem; }
-      a:hover { text-decoration: underline; }
-      .date { color: #888; font-size: 0.85rem; flex-shrink: 0; margin-left: 1rem; }
+      :root { color-scheme: light; --paper: #f7f5f0; --ink: #292b32; --muted: #777984; --line: #e5e1d8; --accent: #a55743; }
+      * { box-sizing: border-box; }
+      body { max-width: 760px; min-height: 100vh; margin: 0 auto; padding: 12vh 32px 64px; font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", Georgia, serif; line-height: 1.8; color: var(--ink); background: var(--paper); }
+      header { margin-bottom: 4.5rem; }
+      .eyebrow { margin: 0 0 .7rem; color: var(--accent); font: 600 .72rem/1.4 system-ui, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+      h1 { margin: 0; font-size: clamp(2.8rem, 9vw, 4.5rem); font-weight: 500; letter-spacing: .06em; line-height: 1.15; }
+      .bio { margin: 1rem 0 0; color: var(--muted); font-size: 1.06rem; }
+      .section-heading { display: flex; align-items: center; gap: 1rem; margin: 0 0 .8rem; color: var(--muted); font: 600 .72rem/1.4 system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+      .section-heading::after { height: 1px; flex: 1; background: var(--line); content: ""; }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li { display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem; border-bottom: 1px solid var(--line); padding: 1rem 0; }
+      li a { color: var(--ink); text-decoration: none; font-size: 1.08rem; transition: color .18s ease; }
+      li a:hover { color: var(--accent); }
+      .date { color: var(--muted); font: .78rem/1.5 system-ui, sans-serif; letter-spacing: .04em; flex-shrink: 0; }
+      @media (max-width: 520px) { body { padding: 10vh 22px 44px; } header { margin-bottom: 3.5rem; } li { gap: .75rem; } li a { font-size: 1rem; } .date { font-size: .72rem; } }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
     </style>
   </head>
   <body>
-    <h1>焚书阁</h1>
-    <p class="bio">舞动的水花</p>
+    <header>
+      <p class="eyebrow">随笔 · 诗与日常</p>
+      <h1>焚书阁</h1>
+      <p class="bio">舞动的水花</p>
+    </header>
+    <main>
+    <h2 class="section-heading">最近的文字</h2>
     <ul>
       {posts.map((post: any) => (
         <li>
@@ -31,5 +45,6 @@ posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.fro
         </li>
       ))}
     </ul>
+    </main>
   </body>
 </html>
