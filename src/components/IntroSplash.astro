@@ -1,0 +1,201 @@
+---
+---
+<style is:global>
+  @font-face {
+    font-family: "Dancing Script";
+    src: url("/fonts/dancing-script-latin-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    color: var(--ink);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.55s ease, visibility 0.55s ease;
+  }
+
+  html[data-intro-hidden] .intro {
+    display: none;
+  }
+
+  .intro.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .intro-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.2rem;
+    padding: 0 24px;
+  }
+
+  .intro-signature {
+    position: relative;
+    display: inline-block;
+  }
+
+  .intro-word {
+    display: block;
+    font-family: "Dancing Script", "Segoe Script", "Brush Script MT", "Snell Roundhand", "Apple Chancery", cursive;
+    font-size: clamp(4.5rem, 17vw, 10rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+    padding: 0.08em 0.18em;
+  }
+
+  .intro-cover {
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+  }
+
+  .intro-pen {
+    position: absolute;
+    left: 0;
+    bottom: 0.2em;
+    width: 11px;
+    height: 11px;
+    margin-left: -5.5px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  .intro-play .intro-cover {
+    animation: intro-cover 1.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+  }
+
+  .intro-play .intro-pen {
+    animation: intro-pen 1.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+  }
+
+  @keyframes intro-cover {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes intro-pen {
+    to {
+      left: 100%;
+    }
+  }
+
+  .intro-hint {
+    margin: 0;
+    color: var(--muted);
+    font: 0.78rem/1.6 var(--font-sans, system-ui);
+    letter-spacing: 0.06em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro {
+      transition-duration: 0.3s;
+    }
+
+    .intro-play .intro-cover {
+      animation: none;
+      transform: translateX(100%);
+    }
+
+    .intro-play .intro-pen {
+      animation: none;
+      left: 100%;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    try {
+      if (sessionStorage.getItem("pengugo-intro-seen") === "1") {
+        document.documentElement.setAttribute("data-intro-hidden", "");
+      }
+    } catch (error) {
+      // Storage unavailable: show the intro normally.
+    }
+  })();
+</script>
+
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="进入动画">
+  <div class="intro-stage">
+    <div class="intro-signature" aria-hidden="true">
+      <span class="intro-word">Pengugo</span>
+      <span class="intro-cover"></span>
+      <span class="intro-pen"></span>
+    </div>
+    <p class="intro-hint">点击任意位置跳过</p>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var intro = document.getElementById("intro");
+    if (!intro || document.documentElement.hasAttribute("data-intro-hidden")) {
+      return;
+    }
+
+    var finished = false;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      intro.classList.add("is-done");
+      window.setTimeout(function () {
+        if (intro && intro.parentNode) {
+          intro.parentNode.removeChild(intro);
+        }
+      }, 600);
+    }
+
+    function markSeen() {
+      try {
+        sessionStorage.setItem("pengugo-intro-seen", "1");
+      } catch (error) {
+        // Storage unavailable: ignore.
+      }
+    }
+
+    function play() {
+      markSeen();
+      intro.classList.add("intro-play");
+      var reduced =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.setTimeout(finish, reduced ? 700 : 2500);
+    }
+
+    intro.addEventListener("click", finish);
+
+    if (document.fonts && document.fonts.ready) {
+      var started = false;
+      document.fonts.ready.then(function () {
+        if (started) return;
+        started = true;
+        play();
+      });
+      // Fallback if the font promise never resolves.
+      window.setTimeout(function () {
+        if (!started) {
+          started = true;
+          play();
+        }
+      }, 700);
+    } else {
+      play();
+    }
+  })();
+</script>

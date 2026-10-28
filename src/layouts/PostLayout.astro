@@ -1,4 +1,6 @@
 ---
+import PageTransition from '../components/PageTransition.astro';
+
 const { frontmatter } = Astro.props;
 ---
 <html lang="zh-CN">
@@ -8,6 +10,7 @@ const { frontmatter } = Astro.props;
     <title>{frontmatter.title}</title>
     <meta name="theme-color" content="#f5f4ef" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <PageTransition />
     <style>
       :root { color-scheme: light; --paper: #fff; --ink: #111; --muted: #666; --line: rgba(23, 23, 23, .16); --red: #e5392d; --blue: #1646c8; --panel: #f0ede6; --font-sans: "Noto Sans SC", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
       * { box-sizing: border-box; }
@@ -34,7 +37,7 @@ const { frontmatter } = Astro.props;
       article pre { overflow-x: auto; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); font-size: .9rem; }
       article code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .88em; }
       .return-wrap { margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
-      .return-link { display: inline-flex; align-items: center; gap: .7rem; color: var(--ink); font: 600 .75rem/1.4 ui-monospace, monospace; letter-spacing: .08em; text-decoration: none; transition: color .2s ease, gap .2s ease; }
+      .return-link { display: inline-flex; align-items: center; gap: .7rem; color: var(--ink); font: 600 .75rem/1.4 var(--font-sans); letter-spacing: .08em; text-decoration: none; transition: color .2s ease, gap .2s ease; }
       .return-link:hover { color: var(--red); gap: 1rem; }
       .return-arrow { display: inline-grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid currentColor; border-radius: 50%; transition: transform .2s ease; }
       .return-link:hover .return-arrow { transform: translateX(-3px); }

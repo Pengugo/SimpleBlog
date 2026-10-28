@@ -1,4 +1,6 @@
 ---
+import PageTransition from '../components/PageTransition.astro';
+
 const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
 posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
 ---
@@ -8,7 +10,8 @@ posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.fro
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f5f4ef" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>文章 · 藏书阁</title>
+    <title>文章 · 焚书阁</title>
+    <PageTransition />
     <style>
       :root { color-scheme: light; --paper: #fff; --ink: #111; --muted: #666; --line: rgba(23, 23, 23, .16); --red: #e5392d; --blue: #1646c8; --font-sans: "Noto Sans SC", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
       * { box-sizing: border-box; }

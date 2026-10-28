@@ -1,12 +1,15 @@
 ---
+import PageTransition from '../components/PageTransition.astro';
+import IntroSplash from '../components/IntroSplash.astro';
 ---
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>藏书阁 · Pengugo</title>
+    <title>焚书阁</title>
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <PageTransition />
     <style>
       :root { color-scheme: light; --paper: #fff; --ink: #111; --muted: #666; --line: rgba(23, 23, 23, .16); --red: #e5392d; --blue: #1646c8; --font-sans: "Noto Sans SC", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
       * { box-sizing: border-box; }
@@ -22,7 +25,7 @@
       .home-layout { position: relative; width: 100%; min-height: calc(100vh - 88px); padding: clamp(62px, 10vh, 110px) 0 90px; }
       .home-title { margin: 0; padding: 0; width: fit-content; white-space: nowrap; }
       h1 { font-size: clamp(5.5rem, 10vw, 9rem); font-weight: 800; letter-spacing: .06em; line-height: .95; }
-      .home-note { position: absolute; right: 0; bottom: 24px; width: min(100%, 700px); margin: 0; color: var(--ink); font-family: Inter, "Helvetica Neue", Arial, sans-serif; font-size: clamp(.95rem, 1.2vw, 1.08rem); font-weight: 500; line-height: 1.8; letter-spacing: .015em; text-align: right; }
+      .home-note { position: absolute; right: 0; bottom: 24px; max-width: min(100%, 620px); margin: 0; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: clamp(.9rem, 1.05vw, 1rem); font-weight: 400; line-height: 1.7; letter-spacing: .01em; text-align: right; }
       .home-note span { display: block; }
       .home-note span:nth-child(2) { color: var(--muted); }
       :root[data-theme="dark"] { color-scheme: dark; --paper: #080808; --ink: #f4f4f4; --muted: #aaa; --line: rgba(255,255,255,.2); --red: #ff6259; --blue: #7899ff; }
@@ -31,6 +34,7 @@
     </style>
   </head>
   <body>
+    <IntroSplash />
     <nav class="topbar" aria-label="主导航">
       <div class="nav-left"><a class="seal" href="/" aria-label="Pengugo 首页">P</a></div>
       <div class="nav-right">
