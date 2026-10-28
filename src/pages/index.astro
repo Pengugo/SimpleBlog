@@ -1,50 +1,54 @@
 ---
-// 自动获取 src/pages/posts/ 下的所有 Markdown 文件
-const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
-// 按日期从新到旧排序
-posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
 ---
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>焚书阁</title>
-    <meta name="theme-color" content="#f7f5f0" />
+    <title>藏书阁 · Pengugo</title>
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
-      :root { color-scheme: light; --paper: #f7f5f0; --ink: #292b32; --muted: #777984; --line: #e5e1d8; --accent: #a55743; }
+      :root { color-scheme: light; --paper: #fff; --ink: #111; --muted: #666; --line: rgba(23, 23, 23, .16); --red: #e5392d; --blue: #1646c8; --font-sans: "Noto Sans SC", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
       * { box-sizing: border-box; }
-      body { max-width: 760px; min-height: 100vh; margin: 0 auto; padding: 12vh 32px 64px; font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", Georgia, serif; line-height: 1.8; color: var(--ink); background: var(--paper); }
-      header { margin-bottom: 4.5rem; }
-      .eyebrow { margin: 0 0 .7rem; color: var(--accent); font: 600 .72rem/1.4 system-ui, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
-      h1 { margin: 0; font-size: clamp(2.8rem, 9vw, 4.5rem); font-weight: 500; letter-spacing: .06em; line-height: 1.15; }
-      .bio { margin: 1rem 0 0; color: var(--muted); font-size: 1.06rem; }
-      .section-heading { display: flex; align-items: center; gap: 1rem; margin: 0 0 .8rem; color: var(--muted); font: 600 .72rem/1.4 system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
-      .section-heading::after { height: 1px; flex: 1; background: var(--line); content: ""; }
-      ul { list-style: none; padding: 0; margin: 0; }
-      li { display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem; border-bottom: 1px solid var(--line); padding: 1rem 0; }
-      li a { color: var(--ink); text-decoration: none; font-size: 1.08rem; transition: color .18s ease; }
-      li a:hover { color: var(--accent); }
-      .date { color: var(--muted); font: .78rem/1.5 system-ui, sans-serif; letter-spacing: .04em; flex-shrink: 0; }
-      @media (max-width: 520px) { body { padding: 10vh 22px 44px; } header { margin-bottom: 3.5rem; } li { gap: .75rem; } li a { font-size: 1rem; } .date { font-size: .72rem; } }
-      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+      body { max-width: 1280px; min-height: 100vh; margin: 0 auto; padding: 0 48px 72px; font-family: var(--font-sans); line-height: 1.8; color: var(--ink); background-color: var(--paper); overflow-x: hidden; }
+      .topbar { height: 88px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-family: var(--font-sans); font-size: .82rem; font-weight: 600; line-height: 1.4; letter-spacing: .12em; }
+      .nav-left, .nav-right { display: flex; align-items: center; gap: 1.6rem; }
+      .seal { display: grid; width: 38px; height: 38px; place-items: center; border: 1.5px solid var(--ink); border-radius: 50%; color: var(--ink); font: 800 1.2rem/1 Georgia, serif; text-decoration: none; }
+      .nav-link { position: relative; z-index: 10; display: inline-flex; align-items: center; min-height: 48px; color: var(--ink); text-decoration: none; cursor: pointer; }
+      .nav-link:hover, .nav-link[aria-current="page"] { color: var(--red); }
+      .nav-link[aria-current="page"]::after { position: absolute; right: 0; bottom: 5px; left: 0; height: 2px; background: var(--red); content: ""; }
+      .theme-toggle { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); font: 1.1rem/1 var(--font-sans); cursor: pointer; }
+      .theme-toggle:hover, .theme-toggle:focus-visible { border-color: var(--red); color: var(--red); }
+      .home-layout { position: relative; width: 100%; min-height: calc(100vh - 88px); padding: clamp(62px, 10vh, 110px) 0 90px; }
+      .home-title { margin: 0; padding: 0; width: fit-content; white-space: nowrap; }
+      h1 { font-size: clamp(5.5rem, 10vw, 9rem); font-weight: 800; letter-spacing: .06em; line-height: .95; }
+      .home-note { position: absolute; right: 0; bottom: 24px; width: min(100%, 700px); margin: 0; color: var(--ink); font-family: Inter, "Helvetica Neue", Arial, sans-serif; font-size: clamp(.95rem, 1.2vw, 1.08rem); font-weight: 500; line-height: 1.8; letter-spacing: .015em; text-align: right; }
+      .home-note span { display: block; }
+      .home-note span:nth-child(2) { color: var(--muted); }
+      :root[data-theme="dark"] { color-scheme: dark; --paper: #080808; --ink: #f4f4f4; --muted: #aaa; --line: rgba(255,255,255,.2); --red: #ff6259; --blue: #7899ff; }
+      @media (prefers-color-scheme: dark) { :root:not([data-theme]) { color-scheme: dark; --paper: #080808; --ink: #f4f4f4; --muted: #aaa; --line: rgba(255,255,255,.2); --red: #ff6259; --blue: #7899ff; } }
+      @media (max-width: 700px) { body { padding: 0 22px 48px; } .topbar { height: 72px; } .nav-left, .nav-right { gap: 1rem; } .home-layout { min-height: calc(100svh - 72px); padding-top: 8vh; } h1 { font-size: clamp(4.6rem, 18vw, 7rem); } .home-note { bottom: 8px; } }
     </style>
   </head>
   <body>
-    <header>
-      <p class="eyebrow">随笔 · 诗与日常</p>
-      <h1>焚书阁</h1>
-      <p class="bio">舞动的水花</p>
-    </header>
-    <main>
-    <h2 class="section-heading">最近的文字</h2>
-    <ul>
-      {posts.map((post: any) => (
-        <li>
-          <a href={post.url}>{post.frontmatter.title}</a>
-          <span class="date">{String(post.frontmatter.date).slice(0, 10)}</span>
-        </li>
-      ))}
-    </ul>
+    <nav class="topbar" aria-label="主导航">
+      <div class="nav-left"><a class="seal" href="/" aria-label="Pengugo 首页">P</a></div>
+      <div class="nav-right">
+        <a class="nav-link" href="/" aria-current="page">主页</a>
+        <a class="nav-link" href="/articles/">文章</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换主题" title="切换日间/暗色模式">☾</button>
+      </div>
+    </nav>
+    <main class="home-layout">
+      <header>
+        <h1 class="home-title">焚书阁</h1>
+      </header>
+      <p class="home-note">
+        <span>What is void phobia?</span>
+        <span>The concerns about meaninglessness never become disappeared.</span>
+        <span>When there will come up an end?</span>
+      </p>
     </main>
   </body>
+  <script is:inline src="/theme.js"></script>
 </html>
