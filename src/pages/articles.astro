@@ -1,5 +1,6 @@
 ---
 import PageTransition from '../components/PageTransition.astro';
+import Footer from '../components/Footer.astro';
 
 const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
 posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
@@ -59,6 +60,7 @@ posts.sort((a: any, b: any) => Date.parse(b.frontmatter.date) - Date.parse(a.fro
         ))}
       </ul>
     </main>
+    <Footer />
   </body>
   <script is:inline src="/theme.js"></script>
 </html>

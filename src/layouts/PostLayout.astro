@@ -1,5 +1,6 @@
 ---
 import PageTransition from '../components/PageTransition.astro';
+import Footer from '../components/Footer.astro';
 
 const { frontmatter } = Astro.props;
 ---
@@ -62,6 +63,7 @@ const { frontmatter } = Astro.props;
         <a class="return-link" href="/articles/"><span class="return-arrow" aria-hidden="true">←</span>返回文章目录</a>
       </div>
     </main>
+    <Footer />
   </body>
   <script is:inline src="/theme.js"></script>
 </html>
